@@ -1,6 +1,6 @@
 import React from "react";
 import Discord from "@/images/discord.svg";
-import Github from "@/images/Github.svg";
+import Github from "@/images/github.svg";
 import Linkedin from "@/images/Linkedin.svg";
 import Twitter from "@/images/Twitter.svg";
 import Image from "next/image";
