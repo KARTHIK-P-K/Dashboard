@@ -2,9 +2,9 @@ import React from "react";
 import Image from "next/image";
 import LeftSide from "@/images/left-side.svg";
 import Discord from "@/images/discord.svg";
-import Github from "@/images/Github.svg";
-import Linkedin from "@/images/Linkedin.svg";
-import Twitter from "@/images/Twitter.svg";
+import Github from "@/images/github.svg";
+import Linkedin from "@/images/linkedin.svg";
+import Twitter from "@/images/twitter.svg";
 
 const LeftSection = () => {
   return (
