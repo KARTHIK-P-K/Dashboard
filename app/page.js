@@ -31,11 +31,11 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
-  useEffect(() => {
-    if (!(session && session.user)) {
-      router.push("/login");
-    }
-  }, [session, router]);
+  // useEffect(() => {
+  //   if (!(session && session.user)) {
+  //     router.push("/login");
+  //   }
+  // }, [session, router]);
 
   return (
     <div className="relative">
