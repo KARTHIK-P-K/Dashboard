@@ -1,113 +1,192 @@
-import Image from 'next/image'
+"use client";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import DashboardLeft from "@/components/DashboardLeft";
+import search from "@/images/search.svg";
+import vector from "@/images/vector.svg";
+import Money from "@/components/Money";
+import FirstIcon from "@/images/FistIcon.svg";
+import SecondIcon from "@/images/SecondIcon.svg";
+import ThirdIcon from "@/images/ThirdIcon.svg";
+import FourthIcon from "@/images/FourthIcon.svg";
+import Container from "@/components/Container";
+import TopProducts from "@/components/TopProducts";
+import AddProfile from "@/components/AddProfile";
+import { AiOutlineMenu } from "react-icons/ai";
+import NavMobile from "@/components/NavMobile";
+import Profile from "@/components/Profile";
 
 export default function Home() {
+  const [catNavMobile, setCatNavMobile] = useState(false);
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    phone: 0,
+    insta: "",
+    youtube: "",
+  });
+
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (!(session && session.user)) {
+      router.push("/login");
+    }
+  }, [session, router]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+    <div className="relative">
+      {/* desktop view */}
+      {isOpen && (
+        <Profile setIsOpen={setIsOpen} setUser={setUser} user={user} />
+      )}
+      <div className="hidden m-10 lg:grid grid-cols-4 lg:gap-[150px] 2xl:gap-4">
+        <div className="col-span-1">
+          <DashboardLeft />
+        </div>
+        <div className="col-span-3 grid font-[Montserrat] grid-rows-12 gap-6">
+          <div className="flex row-span-1 justify-around  xl:justify-between  items-center ">
+            <div className="font-bold text-[24px]">Dashboard</div>
+            <div className="flex  gap-8 items-center">
+              <div className="relative">
+                <input
+                  type="text"
+                  className="w-[200px]  p-2 rounded-lg h-[33px] border "
+                  placeholder="search..."
+                />
+                <Image
+                  className="absolute top-3 right-3"
+                  src={search}
+                  alt="search"
+                  width={12}
+                  height={12}
+                />
+              </div>
+              <Image src={vector} alt="vector" width={18} height={20} />
+              {session?.user?.image && (
+                <img
+                  src={session.user.image}
+                  className="w-[30px] h-[30px] rounded-full cursor-pointer"
+                  onClick={() => signOut()}
+                />
+              )}
+            </div>
+          </div>
+          <div className="grid lg:grid-cols-2  row-span-2 2xl:grid-cols-4 gap-2  ">
+            <Money
+              image={FirstIcon}
+              title="Total Revenue"
+              price="$2,129,430"
+              rate="+2.5%"
+              color="bg-[#7FCD93]"
             />
-          </a>
+            <Money
+              image={SecondIcon}
+              title="Total Transaction"
+              price="1,150"
+              rate="+1.7%"
+              color="bg-[#DEBF85]"
+            />
+            <Money
+              image={ThirdIcon}
+              title="Total Likes"
+              price="9,721"
+              rate="+2.7%"
+              color="bg-[#ECA4A4]"
+            />
+            <Money
+              image={FourthIcon}
+              title="Total Users"
+              price="9,721"
+              rate="+4.2%"
+              color="bg-[#A9B0E5]"
+            />
+          </div>
+          <div className="row-span-5 h-[440px] ">
+            <Container />
+          </div>
+
+          <div className="grid  mx-auto 2xl:mx-0  grid-cols-1   2xl:grid-cols-2  gap-4 row-span-4 ">
+            <div className=" w-[480px] h-[256px]">
+              <TopProducts />
+            </div>
+            <div
+              className=" w-[480px] h-[256px]"
+              onClick={() => setIsOpen(true)}
+            >
+              <AddProfile user={user} />
+            </div>
+          </div>
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      {/* Mobile view */}
+      <div className="lg:hidden ">
+        {catNavMobile && <NavMobile setCatNavMobile={setCatNavMobile} />}
+        <div className="flex  justify-between bg-blue-50  h-[100px]  items-center px-4">
+          <div className="font-bold text-[24px]">Board.</div>
+          <div className="flex  gap-3 items-center">
+            <Image src={vector} alt="vector" width={18} height={20} />
+            {session?.user?.image && (
+              <img
+                src={session.user.image}
+                className="w-[30px] h-[30px] rounded-full cursor-pointer"
+                onClick={() => signOut()}
+              />
+            )}
+            <AiOutlineMenu
+              className="w-6 h-6 cursor-pointer"
+              onClick={() => setCatNavMobile(true)}
+            />
+          </div>
+        </div>
+        <div className=" grid grid-cols-2  mt-10 gap-4 justify-center px-4">
+          <Money
+            image={FirstIcon}
+            title="Total Revenue"
+            price="$2,129,430"
+            rate="+2.5%"
+            color="bg-[#7FCD93]"
+          />
+          <Money
+            image={SecondIcon}
+            title="Total Transaction"
+            price="1,150"
+            rate="+1.7%"
+            color="bg-[#DEBF85]"
+          />
+          <Money
+            image={ThirdIcon}
+            title="Total Likes"
+            price="9,721"
+            rate="+2.7%"
+            color="bg-[#ECA4A4]"
+          />
+          <Money
+            image={FourthIcon}
+            title="Total Users"
+            price="9,721"
+            rate="+4.2%"
+            color="bg-[#A9B0E5]"
+          />
+        </div>
+        <div className="row-span-5 h-[330px]   sm:h-[440px] px-4 mt-10">
+          <Container />
+        </div>
+        <div className="grid my-10 mx-auto 2xl:mx-0   grid-cols-1 px-4   2xl:grid-cols-2  gap-4 row-span-4 ">
+          <div className="w-full lg:w-[480px] h-[256px]">
+            <TopProducts />
+          </div>
+          <div
+            className="w-full lg:w-[480px] h-[256px]"
+            onClick={() => setIsOpen(true)}
+          >
+            <AddProfile user={user} />
+          </div>
+        </div>
       </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    </div>
+  );
 }
