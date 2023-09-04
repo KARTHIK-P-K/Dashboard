@@ -43,7 +43,7 @@ export default function Home() {
       {isOpen && (
         <Profile setIsOpen={setIsOpen} setUser={setUser} user={user} />
       )}
-      <div className="hidden m-10 lg:grid grid-cols-4 lg:gap-[150px] 2xl:gap-4">
+      <div className="hidden p-10 lg:grid grid-cols-4 lg:gap-[150px] 2xl:gap-4">
         <div className="col-span-1">
           <DashboardLeft />
         </div>

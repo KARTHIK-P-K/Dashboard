@@ -111,7 +111,11 @@ const Profile = ({ setIsOpen, setUser, user }) => {
         {btn ? (
           <div className="text-right mt-10">
             <button
-              onClick={() => setBtn(false)}
+              onClick={() => {
+                document.getElementById("name").value = "";
+                document.getElementById("email").value = "";
+                setBtn(false);
+              }}
               className="bg-[#3E84F8] py-2 px-4 text-white rounded-xl   "
             >
               Next
@@ -120,7 +124,11 @@ const Profile = ({ setIsOpen, setUser, user }) => {
         ) : (
           <div className="flex justify-end mt-10 gap-4">
             <button
-              onClick={() => setBtn(true)}
+              onClick={() => {
+                document.getElementById("insta").value = "";
+                document.getElementById("youtube").value = "";
+                setBtn(true);
+              }}
               className="bg-white py-2 px-4 text-black border-2 rounded-xl   "
             >
               Back

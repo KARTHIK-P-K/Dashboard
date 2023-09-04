@@ -8,7 +8,7 @@ import users from "@/images/users.svg";
 
 const DashboardLeft = () => {
   return (
-    <div className="border h-full w-[240px] py-[60px] text-white  rounded-[20px]  bg-gradient-to-r from-blue-500 to-blue-600">
+    <div className="border flex flex-col items-between justify-between h-full w-[240px] py-[60px] text-white  rounded-[20px]  bg-gradient-to-r from-blue-500 to-blue-600">
       <div className="flex flex-col ">
         <h1 className="text-[36px] pl-[50px] font-[Montserrat] font-bold">
           Board.
@@ -36,10 +36,10 @@ const DashboardLeft = () => {
           </div>
         </div>
       </div>
-      {/* <div className="flex flex-col text-[12px] text-white mt-96 gap-2 pl-[50px]">
+      <div className="flex flex-col text-[12px] text-white mt-96 gap-2 pl-[50px]">
         <h1>Help</h1>
         <h1>Contact us</h1>
-      </div> */}
+      </div>
     </div>
   );
 };
